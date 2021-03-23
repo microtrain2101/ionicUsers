@@ -5,6 +5,8 @@ import { AuthService } from '../auth.service';
 // 1. Import the user model
 import { User } from '../user.model';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -18,7 +20,8 @@ export class LoginPage implements OnInit {
       error: any;
   
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {}  
@@ -39,8 +42,8 @@ export class LoginPage implements OnInit {
           }
 
           if(response.success===true){
-            window.location.href='/#/users';
-          }
+            // window.location.href='/#/users';
+            this.router.navigate(['/users']);          }
         }
       );
     }
