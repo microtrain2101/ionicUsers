@@ -19,28 +19,30 @@ const httpOptions = {
 export class AuthService {
 
     // 3. Add URL as an instance variable
-    private url:string = 'http://localhost:3000/api/auth';
+    private url: string;
 
-  constructor(
-    // 5. Inject HttpClient into the constructor
-    private http:HttpClient
-  ) { }
-
-  // test(): string{
-  //   return 'success!';
-  // }
-  //Return an Observable array or User objects
-  // test(): Observable<User[]>{        // 2. Add FormsModule to the imports list
-        FormsModule
-
-  //   let url = 'http://localhost:3000/api/users'
-    //Make a get request over HTTP
-    // return this.http.get<User[]>(url);
-  // 4. Change test() to login() and accept a user object as an argument
-  // 5. Expect a User object instead of an array of User objects
-  // 6. Change from a GET to a POST request
-  // 7. Pass the user object and the HTTP headers into the POST request
-  login(user: User): Observable<User> {
-    return this.http.post<User>(`${this.url}/login`, user, httpOptions);
-  }
+    constructor(private http: HttpClient) {
+      let l = window.location;
+      let host:string;
+      //Are we running under Ionic or in a production environment?
+      if(l.port >= '8100'){
+        host = 'localhost:3000';
+      }else{
+        host = l.hostname + ((l.port.length>0)?':' + l.port:'');
+      }
+  
+      this.url = `${l.protocol}//${host}/api/auth/`;
+    }
+  
+    register(user: User): Observable<User>{
+      return this.http.post<User>(this.url + 'register', user, httpOptions);
+    }
+  
+    login(user: User): Observable<User>{
+      return this.http.post<User>(this.url + 'login', user, httpOptions);
+    }
+  
+    logout(): Observable<User>{
+      return this.http.delete<User>(this.url + 'logout');
+    }
 }
