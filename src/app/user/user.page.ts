@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ViewChild } from '@angular/core';
 
 import { UsersService } from '../users.service';
 import { User } from '../user.model'; 
@@ -10,17 +11,19 @@ import { User } from '../user.model';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
+// export class UserPage {
 
   user: User;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private usersService: UsersService,
-    private router: Router
+    private router: Router,
   ) { }
 
-  ngOnInit() {
-    this.activatedRoute.params.subscribe(params=>{
+
+  ngOnInit() {    
+     this.activatedRoute.params.subscribe(params=>{
       // console.log(params['userId']);
       this.getUser(params['userId']);
     });
@@ -34,11 +37,18 @@ export class UserPage implements OnInit {
       }
     );
   }
+
   deleteUser(id:string): void {
     if (confirm("Are you sure to delete " + this.user.username)) {
       this.usersService.deleteUser(id).subscribe(
         () => { this.router.navigate(['/users']) }
-      );
+    );
     }
   }
+
+  
+    // ionViewDidLoad(){
+    // ionViewDidEnter() {
+    // window.location.reload();
+    // }
 } 

@@ -35,12 +35,15 @@ const routes: Routes = [
   {
     path: 'user-edit/:userId',
     loadChildren: () => import('./user-edit/user-edit.module').then( m => m.UserEditPageModule)
-  }
+  },
+  {
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules,
+    onSameUrlNavigation: 'reload'
+    })
   ],
   exports: [RouterModule]
 })
